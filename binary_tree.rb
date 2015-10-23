@@ -1,3 +1,5 @@
+require_relative 'merge_sort'
+
 class Node
   attr_accessor :value, :left, :right
 
@@ -7,6 +9,9 @@ class Node
 end
 
 def build_tree(array, *indices)
+  if !array.each_cons(2).all? {|a,b| (a <=> b) <= 0}
+    array = merge_sort(array.uniq!)
+  end
   mid = (array.length-1)/2
   first_element = indices[0]
   last_element = indices[1]
@@ -25,4 +30,6 @@ end
 
 
 
-puts build_tree(%w(1 2 3 4 5 6 7 8 9))
+puts build_tree([4,7,2,8,1,1,1,30,22,4,9])
+
+puts build_tree([1,2,3,4,5,6,7,8,9])
