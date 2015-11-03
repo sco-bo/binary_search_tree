@@ -34,38 +34,85 @@ def breadth_first_search(search_value, tree)
   while !queue.empty? 
     current = queue.shift
     visited << current
-    left, right = current.left, current.right
 
     if current.value == search_value
       puts current
       exit
     end
 
-    if !left.nil? && !visited.include?(left)
-      if left.value == search_value
-        puts left
-        puts left.value
+    if !current.left.nil? && !visited.include?(current.left)
+      if current.left.value == search_value
+        puts current.left
         exit
+      else
+        visited << current.left
+        queue << current.left
       end
-      visited << left
-      queue << left
     end
 
-    if !right.nil? && !visited.include?(right)
-      if right.value == search_value
-        puts right
-        puts right.value
+    if !current.right.nil? && !visited.include?(current.right)
+      if current.right.value == search_value
+        puts current.right
         exit
+      else
+        visited << current.right
+        queue << current.right
       end
-      visited << right
-      queue << right
     end
   end
   puts "nil"
 end
 
-binary_tree = build_tree([4,7,2,8,1,1,1,30,22,4,9])
+def depth_first_search(search_value, tree)
+  stack = [tree]
+  visited = [tree]
+    
+  while !stack.empty?
+    current = stack.last
+    visited << current
 
-breadth_first_search(30, binary_tree)
+    if current.value == search_value
+      puts current
+      exit
+    elsif !current.left.nil? && !visited.include?(current.left)
+      if current.left.value == search_value
+        puts current.left
+        exit
+      else
+        visited << current.left
+        stack << current.left
+      end
+    elsif !current.right.nil? && !visited.include?(current.right)
+      if current.right.value == search_value
+        puts current.right
+        exit
+      else
+        visited << current.right
+        stack << current.right
+      end
+    else
+      stack.pop
+    end
+  end
+  puts "nil"
+end
+
+def dfs_rec(search_value, tree)
+  current = tree
+  return if current == nil 
+  if current.value == search_value
+    puts current
+    exit
+  end
+
+  dfs_rec(search_value, current.left)
+  dfs_rec(search_value, current.right)
+end
+
+binary_tree = build_tree([1,2,3,4,5,6,7,8,9])
+
+breadth_first_search(9, binary_tree)
+# depth_first_search(3, binary_tree)
+# dfs_rec(6, binary_tree)
 
 
